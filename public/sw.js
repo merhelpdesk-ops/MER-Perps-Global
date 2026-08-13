@@ -15,7 +15,7 @@ async function initializeCacheName() {
     
     const jsonText = configText
       .replace(/window\.__RUNTIME_CONFIG__\s*=\s*/, '')
-      .replace(/;$/, '')
+      .replace(/;\s*$/, '')
       .trim();
     
     const config = JSON.parse(jsonText);
@@ -146,4 +146,3 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
-

@@ -10,20 +10,20 @@ function loadConfigTitle(): string {
   try {
     const configPath = path.join(__dirname, "public/config.js");
     if (!fs.existsSync(configPath)) {
-      return "Orderly Network";
+      return "MERDEX";
     }
 
     const configText = fs.readFileSync(configPath, "utf-8");
     const jsonText = configText
       .replace(/window\.__RUNTIME_CONFIG__\s*=\s*/, "")
-      .replace(/;$/, "")
+      .replace(/;\s*$/, "")
       .trim();
 
     const config = JSON.parse(jsonText);
-    return config.VITE_ORDERLY_BROKER_NAME || "Orderly Network";
+    return config.VITE_ORDERLY_BROKER_NAME || "MERDEX";
   } catch (error) {
     console.warn("Failed to load title from config.js:", error);
-    return "Orderly Network";
+    return "MERDEX";
   }
 }
 
