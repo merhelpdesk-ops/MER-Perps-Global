@@ -284,7 +284,13 @@ export const useOrderlyConfig = () => {
         name: t("common.markets"),
         isDefault: true,
       },
-      { id: "Swap", href: "/swap", name: t("extend.swap"), isDefault: true },
+      {
+        id: "Swap",
+        href: getRuntimeConfig("VITE_SWAP_URL") || "/swap",
+        name: t("extend.swap"),
+        target: getRuntimeConfig("VITE_SWAP_URL") ? "_blank" : undefined,
+        isDefault: true,
+      },
       {
         id: "Leaderboard",
         href: "/leaderboard",
