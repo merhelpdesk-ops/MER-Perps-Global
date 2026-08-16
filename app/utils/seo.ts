@@ -76,7 +76,7 @@ function getAvailableLanguages(): string[] {
   return languages
     .map((code: string) => code.trim())
     .filter((code: string) =>
-      SUPPORTED_LANGUAGES.some((lang) => lang.code === code)
+      SUPPORTED_LANGUAGES.some((lang) => lang.code === code),
     );
 }
 
@@ -130,7 +130,7 @@ export function getPageMeta(): (MetaTag | LinkTag)[] {
   let metaImage;
   if (siteUrl) {
     const baseUrl = siteUrl.endsWith("/") ? siteUrl.slice(0, -1) : siteUrl;
-    metaImage = `${baseUrl}/logo.webp`;
+    metaImage = `${baseUrl}/merdex-social-card.png`;
   }
 
   const metaKeywords = config.keywords;
@@ -164,7 +164,7 @@ export function getPageMeta(): (MetaTag | LinkTag)[] {
 
     tags.push(
       { property: "og:type", content: "website" },
-      { property: "og:url", content: fullUrl }
+      { property: "og:url", content: fullUrl },
     );
     if (metaImage) {
       tags.push({ property: "og:image", content: metaImage });
