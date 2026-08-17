@@ -26,7 +26,7 @@ window.__RUNTIME_CONFIG__ = {
   "VITE_TELEGRAM_URL": "https://t.me/mer66666666",
   "VITE_DISCORD_URL": "https://discord.com/invite/pEE2mGdWTu",
   "VITE_TWITTER_URL": "https://x.com/merhelpdesk",
-  "VITE_SWAP_URL": "https://merdex.vercel.app/",
+  "VITE_SWAP_URL": "https://mer.finance",
   "VITE_SEO_SITE_NAME": "MERDEX",
   "VITE_SEO_SITE_DESCRIPTION": "MERDEX is a secure and high-speed aggregate platform.",
   "VITE_SEO_SITE_URL": "https://mer-perps-global.vercel.app",
