@@ -133,7 +133,7 @@ function generateManifest() {
     icons: [
       {
         src: iconPath,
-        sizes: "200x200",
+        sizes: "96x96",
         type: "image/webp",
         purpose: "any maskable",
       },
@@ -148,7 +148,7 @@ function generateManifest() {
         icons: [
           {
             src: iconPath,
-            sizes: "200x200",
+            sizes: "96x96",
             type: "image/webp",
           },
         ],
@@ -161,7 +161,7 @@ function generateManifest() {
         icons: [
           {
             src: iconPath,
-            sizes: "200x200",
+            sizes: "96x96",
             type: "image/webp",
           },
         ],
