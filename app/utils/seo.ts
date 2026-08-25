@@ -130,7 +130,9 @@ export function getPageMeta(): (MetaTag | LinkTag)[] {
   let metaImage;
   if (siteUrl) {
     const baseUrl = siteUrl.endsWith("/") ? siteUrl.slice(0, -1) : siteUrl;
-    metaImage = `${baseUrl}/merdex-social-card.png`;
+    // Social platforms cache preview images aggressively by URL. Bump this
+    // version whenever the card artwork changes so crawlers fetch it again.
+    metaImage = `${baseUrl}/merdex-social-card.png?v=20260825`;
   }
 
   const metaKeywords = config.keywords;
