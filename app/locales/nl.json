@@ -1,11 +1,12 @@
 {
-  "extend.tradingRewards.description": "Handel met Orderly om ORDER te verdienen",
+  "extend.tradingRewards.description": "Handel met MERDEX om ORDER te verdienen",
   "extend.affiliate.tag": "40% Korting",
-  "extend.affiliate.description": "Verdien meer als een Orderly affiliate",
+  "extend.affiliate.description": "Verdien meer als een MERDEX affiliate",
   "extend.staking": "Staking",
   "extend.staking.description": "ORDER/esORDER inzetten om VALOR te verwerven",
   "extend.swap": "Ruilen",
   "extend.tradingPoints.points": "Punten",
   "extend.tradingLeaderboard.leaderboard": "Ranglijst",
-  "extend.tradingLeaderboard.campaigns": "Campagnes"
+  "extend.tradingLeaderboard.campaigns": "Campagnes",
+  "transfer.deposit.estGasFee.tooltip": "Geschatte gasfee omvat: transactie-uitvoeringskosten op deze chain en operationele fee van de bestemmings-chain voor MERDEX-storting. Bereid extra voor om voldoende dekking te garanderen."
 }

@@ -1,11 +1,12 @@
 {
-  "extend.tradingRewards.description": "تداول مع Orderly لكسب ORDER",
+  "extend.tradingRewards.description": "تداول مع MERDEX لكسب ORDER",
   "extend.affiliate.tag": "استرداد 40%",
-  "extend.affiliate.description": "اكسب المزيد بصفتك شريكا تابعا لـ Orderly",
+  "extend.affiliate.description": "اكسب المزيد بصفتك شريكا تابعا لـ MERDEX",
   "extend.staking": "التخزين",
   "extend.staking.description": "قم بتخزين ORDER/esORDER للحصول على VALOR",
   "extend.swap": "تبديل",
   "extend.tradingPoints.points": "النقاط",
   "extend.tradingLeaderboard.leaderboard": "لوحة الصدارة",
-  "extend.tradingLeaderboard.campaigns": "الحملات"
+  "extend.tradingLeaderboard.campaigns": "الحملات",
+  "transfer.deposit.estGasFee.tooltip": "تشمل رسوم الغاز التقديرية: تكلفة تنفيذ المعاملة على هذه السلسلة، ورسوم التشغيل على سلسلة الوجهة لإيداع MERDEX. جهّز هامشًا إضافيًا لضمان التغطية الكافية."
 }

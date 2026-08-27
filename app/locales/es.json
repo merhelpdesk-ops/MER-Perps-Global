@@ -1,11 +1,12 @@
 {
-  "extend.tradingRewards.description": "Opera con Orderly para ganar ORDER",
+  "extend.tradingRewards.description": "Opera con MERDEX para ganar ORDER",
   "extend.affiliate.tag": "40% de reembolso",
-  "extend.affiliate.description": "Gana más como afiliado de Orderly",
+  "extend.affiliate.description": "Gana más como afiliado de MERDEX",
   "extend.staking": "Staking",
   "extend.staking.description": "Haz staking de ORDER/esORDER para adquirir VALOR",
   "extend.swap": "Intercambiar",
   "extend.tradingPoints.points": "Puntos",
   "extend.tradingLeaderboard.leaderboard": "Tabla de clasificación",
-  "extend.tradingLeaderboard.campaigns": "Campañas"
+  "extend.tradingLeaderboard.campaigns": "Campañas",
+  "transfer.deposit.estGasFee.tooltip": "La tarifa de gas estimada incluye: costo de ejecución de la transacción en esta cadena y tarifa de operación de la cadena de destino para el depósito de MERDEX. Prepare un extra para garantizar una cobertura suficiente."
 }

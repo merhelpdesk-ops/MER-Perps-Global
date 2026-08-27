@@ -1,11 +1,12 @@
 {
-  "extend.tradingRewards.description": "Торгуйте з Orderly, щоб заробити ORDER",
+  "extend.tradingRewards.description": "Торгуйте з MERDEX, щоб заробити ORDER",
   "extend.affiliate.tag": "40% Rebate",
-  "extend.affiliate.description": "Заробляйте більше як партнер Orderly",
+  "extend.affiliate.description": "Заробляйте більше як партнер MERDEX",
   "extend.staking": "Стейкінг",
   "extend.staking.description": "Ставте ORDER/esORDER, щоб отримати VALOR",
   "extend.swap": "Обмін",
   "extend.tradingPoints.points": "Очки",
   "extend.tradingLeaderboard.leaderboard": "Таблиця лідерів",
-  "extend.tradingLeaderboard.campaigns": "Кампанії"
+  "extend.tradingLeaderboard.campaigns": "Кампанії",
+  "transfer.deposit.estGasFee.tooltip": "Розрахункова комісія за газ включає: вартість виконання транзакції в цій мережі та операційну комісію мережі призначення для депозиту MERDEX. Будь ласка, підготуйте додаткову суму для забезпечення достатнього покриття."
 }

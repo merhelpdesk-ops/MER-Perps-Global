@@ -1,11 +1,12 @@
 {
-  "extend.tradingRewards.description": "Giao dịch với Orderly để kiếm ORDER",
+  "extend.tradingRewards.description": "Giao dịch với MERDEX để kiếm ORDER",
   "extend.affiliate.tag": "Hoàn trả 40%",
-  "extend.affiliate.description": "Kiếm thêm với tư cách là đối tác của Orderly",
+  "extend.affiliate.description": "Kiếm thêm với tư cách là đối tác của MERDEX",
   "extend.staking": "Staking",
   "extend.staking.description": "Staking ORDER/esORDER để nhận VALOR",
   "extend.swap": "Hoán đổi",
   "extend.tradingPoints.points": "Điểm",
   "extend.tradingLeaderboard.leaderboard": "Bảng xếp hạng",
-  "extend.tradingLeaderboard.campaigns": "Chiến dịch"
+  "extend.tradingLeaderboard.campaigns": "Chiến dịch",
+  "transfer.deposit.estGasFee.tooltip": "Phí gas ước tính bao gồm: chi phí thực thi giao dịch trên chuỗi này và phí hoạt động chuỗi đích cho việc nạp MERDEX. Vui lòng chuẩn bị thêm để đảm bảo đủ chi trả."
 }
