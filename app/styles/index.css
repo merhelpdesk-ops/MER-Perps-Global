@@ -27,3 +27,12 @@
 #oui-withdraw-form svg.oui-cursor-pointer.oui-text-base-contrast-36 {
   display: none !important;
 }
+
+/* keep the permissionless-listing risk notice without the Orderly docs link */
+.oui-symbol-info-bar-risk-notice {
+  pointer-events: none;
+}
+
+.oui-symbol-info-bar-risk-notice .oui-underline {
+  display: none;
+}
