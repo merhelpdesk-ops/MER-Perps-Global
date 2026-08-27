@@ -235,7 +235,7 @@ export const useOrderlyConfig = () => {
               <img
                 src={withBasePath("/logo.webp")}
                 alt="logo"
-                style={{ height: "42px" }}
+                style={{ height: "29px" }}
               />
             ),
           }
@@ -389,12 +389,11 @@ export const useOrderlyConfig = () => {
               />
             )}
             <Link to="/">
-              {isMobile &&
-              getRuntimeConfigBoolean("VITE_HAS_SECONDARY_LOGO") ? (
+              {isMobile && getRuntimeConfigBoolean("VITE_HAS_PRIMARY_LOGO") ? (
                 <img
-                  src={withBasePath("/logo-secondary.webp")}
+                  src={withBasePath("/logo.webp")}
                   alt="logo"
-                  style={{ height: "32px" }}
+                  style={{ height: "22px" }}
                 />
               ) : (
                 components.title

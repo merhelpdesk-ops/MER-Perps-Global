@@ -1,5 +1,6 @@
 import { FC, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { ExternalLink } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -8,12 +9,11 @@ import {
   VectorIcon,
 } from "@orderly.network/ui";
 import { LeftNavProps, LeftNavItem } from "@orderly.network/ui-scaffold";
-import { ExternalLink } from "lucide-react";
+import { withBasePath } from "@/utils/base-path";
 import {
   getRuntimeConfig,
   getRuntimeConfigBoolean,
 } from "@/utils/runtime-config";
-import { withBasePath } from "@/utils/base-path";
 
 type LeftNavUIProps = LeftNavProps & {
   className?: string;
@@ -67,7 +67,7 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
               <img
                 src={withBasePath("/logo.webp")}
                 alt="logo"
-                className="oui-h-[32px]"
+                className="oui-h-[22px]"
               />
             ) : (
               <h1 className="oui-text-base-contrast-80 oui-font-bold">
