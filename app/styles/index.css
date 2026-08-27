@@ -22,7 +22,8 @@
   display: none !important;
 }
 
-/* hide deposit risk tooltips that link to Orderly documentation */
-[id$="-content-web3"] svg.oui-cursor-pointer.oui-text-base-contrast-36 {
+/* hide transfer risk tooltips that link to Orderly documentation */
+[id$="-content-web3"] svg.oui-cursor-pointer.oui-text-base-contrast-36,
+#oui-withdraw-form svg.oui-cursor-pointer.oui-text-base-contrast-36 {
   display: none !important;
 }
