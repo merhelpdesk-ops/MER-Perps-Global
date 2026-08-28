@@ -36,3 +36,8 @@
 .oui-symbol-info-bar-risk-notice .oui-underline {
   display: none;
 }
+
+/* hide links to the Orderly website across the app */
+a[href^="https://orderly.network/"] {
+  display: none !important;
+}
