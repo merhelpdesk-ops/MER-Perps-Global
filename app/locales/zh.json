@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "积分",
   "extend.tradingLeaderboard.leaderboard": "排行榜",
   "extend.tradingLeaderboard.campaigns": "活动",
+  "extend.service": "客服",
   "transfer.deposit.estGasFee.tooltip": "预估 Gas 费用包含：当前链上的交易执行成本，以及 MERDEX 存入的目标链操作费用。请额外准备以确保覆盖充足。"
 }

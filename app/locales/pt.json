@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "Pontos",
   "extend.tradingLeaderboard.leaderboard": "Ranking",
   "extend.tradingLeaderboard.campaigns": "Campanhas",
+  "extend.service": "Atendimento",
   "transfer.deposit.estGasFee.tooltip": "A taxa de gas estimada inclui: custo de execução da transação nesta chain e taxa de operação da chain de destino para o depósito MERDEX. Prepare um valor extra para garantir cobertura suficiente."
 }

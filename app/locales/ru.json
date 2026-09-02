@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "Баллы",
   "extend.tradingLeaderboard.leaderboard": "Таблица лидеров",
   "extend.tradingLeaderboard.campaigns": "Кампании",
+  "extend.service": "Поддержка",
   "transfer.deposit.estGasFee.tooltip": "Расчётная комиссия за газ включает: стоимость выполнения транзакции в этой сети и операционную комиссию целевой сети для депозита MERDEX. Пожалуйста, подготовьте дополнительную сумму для обеспечения достаточного покрытия."
 }

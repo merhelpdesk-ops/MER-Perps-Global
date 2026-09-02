@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "Punten",
   "extend.tradingLeaderboard.leaderboard": "Ranglijst",
   "extend.tradingLeaderboard.campaigns": "Campagnes",
+  "extend.service": "Klantenservice",
   "transfer.deposit.estGasFee.tooltip": "Geschatte gasfee omvat: transactie-uitvoeringskosten op deze chain en operationele fee van de bestemmings-chain voor MERDEX-storting. Bereid extra voor om voldoende dekking te garanderen."
 }

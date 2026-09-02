@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "Puan",
   "extend.tradingLeaderboard.leaderboard": "Sıralama",
   "extend.tradingLeaderboard.campaigns": "Kampanyalar",
+  "extend.service": "Müşteri hizmetleri",
   "transfer.deposit.estGasFee.tooltip": "Tahmini gas ücreti şunları içerir: bu zincirdeki işlem yürütme maliyeti ve MERDEX yatırımı için hedef zincir işletim ücreti. Yeterli kapsama sağlamak için lütfen ekstra hazırlayın."
 }

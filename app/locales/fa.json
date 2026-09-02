@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "امتیازها",
   "extend.tradingLeaderboard.leaderboard": "جدول رتبه بندی",
   "extend.tradingLeaderboard.campaigns": "کمپین ها",
+  "extend.service": "پشتیبانی",
   "transfer.deposit.estGasFee.tooltip": "کارمزد گس تخمینی شامل هزینهٔ اجرای تراکنش در این زنجیره و کارمزد عملیات مقصد برای واریز MERDEX است؛ مقدار اضافی آماده کنید."
 }

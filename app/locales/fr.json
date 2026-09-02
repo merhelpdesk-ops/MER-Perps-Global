@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "Points",
   "extend.tradingLeaderboard.leaderboard": "Classement",
   "extend.tradingLeaderboard.campaigns": "Campagnes",
+  "extend.service": "Assistance",
   "transfer.deposit.estGasFee.tooltip": "Les frais de gas estimés comprennent : les coûts d'exécution de la transaction sur cette chaîne et les frais d'exploitation de la chaîne de destination pour le dépôt MERDEX. Veuillez prévoir un surplus pour assurer une couverture suffisante."
 }

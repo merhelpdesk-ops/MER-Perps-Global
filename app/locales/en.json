@@ -9,5 +9,6 @@
   "extend.tradingLeaderboard.leaderboard": "Leaderboard",
   "extend.tradingLeaderboard.campaigns": "Campaigns",
   "extend.merVip.navigation": "MER VIP",
+  "extend.service": "Service",
   "transfer.deposit.estGasFee.tooltip": "Estimated gas fee includes: transaction execution cost on this chain, and destination chain operation fee for MERDEX deposit. Please prepare extra to ensure sufficient coverage."
 }

@@ -10,5 +10,6 @@
   "extend.tradingPoints.points": "포인트",
   "extend.tradingLeaderboard.leaderboard": "리더보드",
   "extend.tradingLeaderboard.campaigns": "캠페인",
+  "extend.service": "고객 지원",
   "transfer.deposit.estGasFee.tooltip": "예상 가스 수수료 포함: 이 체인에서의 거래 실행 비용 및 MERDEX 입금을 위한 대상 체인 운영 수수료. 충분한 범위를 보장하려면 여유 있게 준비해 주세요."
 }

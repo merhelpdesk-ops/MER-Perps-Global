@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "Punti",
   "extend.tradingLeaderboard.leaderboard": "Classifica",
   "extend.tradingLeaderboard.campaigns": "Campagne",
+  "extend.service": "Assistenza",
   "transfer.deposit.estGasFee.tooltip": "La tariffa del gas stimata include: costo di esecuzione della transazione su questa chain e commissione operativa della chain di destinazione per il deposito MERDEX. Preparare un extra per garantire una copertura sufficiente."
 }

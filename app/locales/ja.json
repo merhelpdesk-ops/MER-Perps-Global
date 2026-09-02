@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "ポイント",
   "extend.tradingLeaderboard.leaderboard": "リーダーボード",
   "extend.tradingLeaderboard.campaigns": "キャンペーン",
+  "extend.service": "カスタマーサービス",
   "transfer.deposit.estGasFee.tooltip": "推定ガス料金には以下が含まれます：このチェーンでの取引実行コスト、および MERDEX 入金の送信先チェーン操作料。十分なカバレッジを確保するため、余分にご用意ください。"
 }

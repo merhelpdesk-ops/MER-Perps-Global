@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "Poin",
   "extend.tradingLeaderboard.leaderboard": "Papan peringkat",
   "extend.tradingLeaderboard.campaigns": "Kampanye",
+  "extend.service": "Layanan pelanggan",
   "transfer.deposit.estGasFee.tooltip": "Biaya gas yang diperkirakan mencakup: biaya eksekusi transaksi di chain ini dan biaya operasi chain tujuan untuk setoran MERDEX. Harap siapkan ekstra untuk memastikan cakupan yang cukup."
 }

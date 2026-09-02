@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "Điểm",
   "extend.tradingLeaderboard.leaderboard": "Bảng xếp hạng",
   "extend.tradingLeaderboard.campaigns": "Chiến dịch",
+  "extend.service": "Hỗ trợ khách hàng",
   "transfer.deposit.estGasFee.tooltip": "Phí gas ước tính bao gồm: chi phí thực thi giao dịch trên chuỗi này và phí hoạt động chuỗi đích cho việc nạp MERDEX. Vui lòng chuẩn bị thêm để đảm bảo đủ chi trả."
 }

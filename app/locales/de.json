@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "Punkte",
   "extend.tradingLeaderboard.leaderboard": "Bestenliste",
   "extend.tradingLeaderboard.campaigns": "Kampagnen",
+  "extend.service": "Kundenservice",
   "transfer.deposit.estGasFee.tooltip": "Die geschätzte Gasgebühr umfasst: Transaktionsausführungskosten in dieser Chain sowie Betriebsgebühr der Ziel-Chain für die MERDEX-Einzahlung. Bitte bereiten Sie zusätzliche Mittel vor, um eine ausreichende Deckung sicherzustellen."
 }

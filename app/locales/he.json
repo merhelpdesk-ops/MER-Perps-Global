@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "נקודות",
   "extend.tradingLeaderboard.leaderboard": "טבלת דירוג",
   "extend.tradingLeaderboard.campaigns": "קמפיינים",
+  "extend.service": "שירות לקוחות",
   "transfer.deposit.estGasFee.tooltip": "כולל עלות ביצוע בשרשרת זו ועמלת הפעולה ביעד להפקדת MERDEX. הכינו עודף."
 }

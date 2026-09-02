@@ -8,5 +8,6 @@
   "extend.tradingPoints.points": "النقاط",
   "extend.tradingLeaderboard.leaderboard": "لوحة الصدارة",
   "extend.tradingLeaderboard.campaigns": "الحملات",
+  "extend.service": "خدمة العملاء",
   "transfer.deposit.estGasFee.tooltip": "تشمل رسوم الغاز التقديرية: تكلفة تنفيذ المعاملة على هذه السلسلة، ورسوم التشغيل على سلسلة الوجهة لإيداع MERDEX. جهّز هامشًا إضافيًا لضمان التغطية الكافية."
 }

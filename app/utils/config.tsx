@@ -317,6 +317,13 @@ export const useOrderlyConfig = () => {
           );
         },
       },
+      {
+        id: "Service",
+        href: "https://x.com/merhelpdesk",
+        name: t("extend.service"),
+        target: "_blank",
+        isDefault: true,
+      },
 
       { id: "Rewards", href: "/rewards", name: t("tradingRewards.rewards") },
       { id: "Vaults", href: "/vaults", name: t("common.vaults") },
