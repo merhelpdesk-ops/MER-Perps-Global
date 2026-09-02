@@ -298,8 +298,9 @@ export const useOrderlyConfig = () => {
       },
       {
         id: "MerVip",
-        href: "/mer-vip",
+        href: "https://vip.mer.finance",
         name: t("extend.merVip.navigation"),
+        target: "_blank",
         isDefault: true,
       },
       {
