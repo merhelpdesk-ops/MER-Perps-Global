@@ -1,0 +1,27 @@
+.mer-vip-page { position: relative; isolation: isolate; }
+.mer-vip-page::before { position: fixed; z-index: -1; inset: 64px 0 0; background: radial-gradient(circle at 50% 5%, rgb(var(--oui-color-primary) / .12), transparent 34rem), radial-gradient(circle at 15% 45%, rgb(var(--oui-color-success) / .06), transparent 28rem); content: ""; pointer-events: none; }
+.mer-vip-card { position: relative; overflow: hidden; padding: 1px; border-radius: 20px; background: linear-gradient(125deg, rgb(106 224 218 / .65), rgb(255 255 255 / .1) 35%, rgb(71 222 194 / .5)); box-shadow: 0 30px 80px rgb(0 0 0 / .35), 0 0 32px rgb(45 212 167 / .08); }
+.mer-vip-card::before { position: absolute; inset: 1px; border-radius: 19px; background: linear-gradient(145deg, #1d334c 0%, #172940 52%, #101d31 100%); content: ""; }
+.mer-vip-card__glow { position: absolute; z-index: 1; top: -170px; right: -100px; width: 430px; height: 430px; border-radius: 50%; background: rgb(65 220 203 / .12); filter: blur(50px); pointer-events: none; }
+.mer-vip-header { position: relative; z-index: 2; padding: 36px 42px 28px; text-align: center; }
+.mer-vip-title { color: #f7fbff; font-weight: 900; letter-spacing: -.035em; text-shadow: 0 2px 18px rgb(0 0 0 / .45), 0 0 1px currentColor; }
+.mer-vip-header__line { width: min(260px, 60%); height: 1px; margin: 22px auto 0; background: linear-gradient(90deg, transparent, rgb(97 236 220 / .75), transparent); box-shadow: 0 0 12px rgb(97 236 220 / .65); }
+.mer-vip-table-frame { position: relative; z-index: 2; margin: 0 34px 34px; overflow: hidden; border: 1px solid rgb(112 237 220 / .62); border-radius: 16px; background: rgb(219 238 238 / .9); box-shadow: 0 0 0 3px rgb(68 213 198 / .08), 0 0 30px rgb(54 226 205 / .2); }
+.mer-vip-table { color: #12202c; }
+.mer-vip-table thead { color: #f5ffff; background: linear-gradient(90deg, rgb(25 62 81 / .98), rgb(40 121 125 / .92)); text-shadow: 0 1px 3px rgb(0 0 0 / .5); }
+.mer-vip-table th:not(:last-child), .mer-vip-table td:not(:last-child) { border-right: 1px solid rgb(16 61 70 / .22); }
+.mer-vip-table tbody tr { border-bottom: 1px solid rgb(19 70 77 / .2); background: linear-gradient(90deg, rgb(237 245 242 / .96), rgb(177 213 210 / .92)); transition: filter 160ms ease; }
+.mer-vip-table tbody tr:nth-child(even) { background: linear-gradient(90deg, rgb(219 232 229 / .96), rgb(162 204 202 / .92)); }
+.mer-vip-table tbody tr:last-child { border-bottom: 0; }
+.mer-vip-table tbody tr:hover { filter: brightness(1.08); }
+.mer-vip-level-column { font-weight: 800; }
+.vip-emblem { position: relative; display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; width: 38px; height: 38px; transform: rotate(45deg); border: 2px solid rgb(255 255 255 / .56); border-radius: 11px 50% 11px 50%; color: white; box-shadow: inset 0 0 9px rgb(255 255 255 / .5), 0 3px 7px rgb(6 29 38 / .35); }
+.vip-emblem span { transform: rotate(-45deg); font-size: 12px; font-weight: 900; text-shadow: 0 1px 3px rgb(0 0 0 / .55); }
+.vip-emblem--bronze { background: linear-gradient(135deg, #e79c77, #853d31); }
+.vip-emblem--silver { background: linear-gradient(135deg, #f1f4f6, #728293); }
+.vip-emblem--gold { background: linear-gradient(135deg, #ffd37d, #b66a20); }
+.vip-emblem--diamond { background: linear-gradient(135deg, #dffcff, #5298d4 55%, #6f61be); }
+.vip-emblem--master { background: linear-gradient(135deg, #fff5bd, #8f7733 55%, #4b462d); }
+.vip-emblem--crown { background: linear-gradient(135deg, #ffe794, #cf791c 50%, #724217); }
+.mer-vip-rebate { display: inline-block; min-width: 90px; padding: 6px 9px; border: 1px solid rgb(91 255 231 / .58); border-radius: 7px; color: #24f3d5; background: linear-gradient(90deg, rgb(4 79 83 / .84), rgb(15 135 130 / .64)); box-shadow: inset 0 0 12px rgb(49 234 213 / .16), 0 0 13px rgb(35 236 211 / .38); text-shadow: 0 0 8px rgb(61 255 230 / .75); }
+@media (max-width: 767px) { .mer-vip-card { border-radius: 16px; } .mer-vip-card::before { border-radius: 15px; } .mer-vip-header { padding: 28px 18px 20px; } .mer-vip-table-frame { margin: 0 12px 16px; border-radius: 12px; } .mer-vip-table th, .mer-vip-table td { padding-top: 14px; padding-bottom: 14px; } }

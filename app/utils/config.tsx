@@ -297,6 +297,12 @@ export const useOrderlyConfig = () => {
         isDefault: true,
       },
       {
+        id: "MerVip",
+        href: "/mer-vip",
+        name: t("extend.merVip.navigation"),
+        isDefault: true,
+      },
+      {
         id: "Campaigns",
         href: "",
         name: t("extend.tradingLeaderboard.campaigns"),
