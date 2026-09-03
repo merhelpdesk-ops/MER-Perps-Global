@@ -319,7 +319,7 @@ export const useOrderlyConfig = () => {
       },
       {
         id: "Service",
-        href: "https://x.com/merhelpdesk",
+        href: "https://service.mer.finance",
         name: t("extend.service"),
         target: "_blank",
         isDefault: true,
