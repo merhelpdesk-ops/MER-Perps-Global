@@ -41,10 +41,3 @@
 a[href^="https://orderly.network/"] {
   display: none !important;
 }
-
-/* Reserve a compact, non-interactive slot at the end of the bottom navigation. */
-
-.oui-border-t.oui-border-line-4.oui-bg-base-9::after {
-  content: "";
-  flex: 0 0 100px;
-}
