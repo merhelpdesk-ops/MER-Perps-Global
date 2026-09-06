@@ -299,7 +299,7 @@ export const useOrderlyConfig = () => {
       {
         id: "MerVip",
         href: "https://vip.mer.finance",
-        name: t("extend.merVip.navigation"),
+        name: "MER VIP",
         target: "_blank",
         isDefault: true,
       },
