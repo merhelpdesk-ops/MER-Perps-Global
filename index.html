@@ -77,6 +77,7 @@
   <!-- Start of Tawk.to Script -->
   <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    Tawk_API.lang = 'en';
     var mobileTawkPositionKey = 'merdex-mobile-tawk-position';
 
     function isMobileTawkScreen() {
@@ -120,35 +121,31 @@
     }
 
     function syncMobileTawkWidget() {
-      if (typeof Tawk_API.showWidget !== 'function') return;
-      Tawk_API.showWidget();
-      showMobileTawkWidget(true);
-      restoreMobileTawkPosition();
+      var maximized = typeof Tawk_API.isChatMaximized === 'function' && Tawk_API.isChatMaximized();
+      if (maximized) {
+        showMobileTawkWidget(false);
+      } else {
+        showMobileTawkWidget(true);
+        restoreMobileTawkPosition();
+      }
     }
 
     function openMobileTawkChat() {
-      if (typeof Tawk_API.maximize !== 'function') return;
-      if (typeof Tawk_API.start === 'function') Tawk_API.start({ showWidget: true });
-      Tawk_API.showWidget();
-      Tawk_API.maximize();
+      showMobileTawkWidget(false);
+      if (typeof Tawk_API.maximize === 'function') Tawk_API.maximize();
     }
 
     Tawk_API.onLoad = syncMobileTawkWidget;
     Tawk_API.onChatMaximized = function () {
-      showMobileTawkWidget(true);
+      showMobileTawkWidget(false);
     };
     Tawk_API.onChatMinimized = function () {
-      if (isMobileTawkScreen()) {
-        Tawk_API.showWidget();
-        showMobileTawkWidget(true);
-        restoreMobileTawkPosition();
-      }
+      showMobileTawkWidget(true);
+      restoreMobileTawkPosition();
     };
     Tawk_API.onChatHidden = function () {
-      if (isMobileTawkScreen()) {
-        showMobileTawkWidget(true);
-        restoreMobileTawkPosition();
-      }
+      showMobileTawkWidget(true);
+      restoreMobileTawkPosition();
     };
 
     window.addEventListener('resize', syncMobileTawkWidget);
@@ -157,10 +154,10 @@
       var widget = getMobileTawkWidget();
       var drag = null;
 
-      if (isMobileTawkScreen()) {
-        showMobileTawkWidget(true);
-        restoreMobileTawkPosition();
-      }
+      if (!widget) return;
+
+      showMobileTawkWidget(true);
+      restoreMobileTawkPosition();
 
       widget.addEventListener('pointerdown', function (event) {
         var rect = widget.getBoundingClientRect();
