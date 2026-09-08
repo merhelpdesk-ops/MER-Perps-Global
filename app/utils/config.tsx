@@ -300,7 +300,6 @@ export const useOrderlyConfig = () => {
         id: "MerVip",
         href: "https://vip.mer.finance",
         name: "MER VIP",
-        target: "_blank",
         isDefault: true,
       },
       {
@@ -321,7 +320,6 @@ export const useOrderlyConfig = () => {
         id: "Service",
         href: "https://service.mer.finance",
         name: t("extend.service"),
-        target: "_blank",
         isDefault: true,
       },
 
