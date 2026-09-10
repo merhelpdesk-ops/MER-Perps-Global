@@ -6,6 +6,41 @@
   <link rel="icon" type="image/webp" sizes="96x96" href="/favicon.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- 【不破坏通信的零闪烁拦截】在生成瞬间强封样式，保留其后台通信能力 -->
+  <script>
+    (function suppressNativeTawkIcon() {
+      const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          for (const node of mutation.addedNodes) {
+            if (node.nodeType === 1 && node.tagName === 'IFRAME') {
+              const src = node.getAttribute('src') || '';
+              const title = node.getAttribute('title') || '';
+              const style = node.getAttribute('style') || '';
+              
+              // 识别原生气泡图标 iframe（排除了展开后的聊天大窗口）
+              const isTawkBubble = 
+                (src.includes('about:blank') || title.toLowerCase().includes('chat widget')) &&
+                !style.includes('max-height: 100%') && 
+                !style.includes('height: 100%') &&
+                !style.includes('height:100%');
+
+              if (isTawkBubble) {
+                // 不 remove()，改用极低层级的隐藏，让它在后台默默工作
+                node.style.setProperty('display', 'none', 'important');
+                node.style.setProperty('visibility', 'hidden', 'important');
+                node.style.setProperty('opacity', '0', 'important');
+                node.style.setProperty('pointer-events', 'none', 'important');
+                node.style.setProperty('transform', 'scale(0)', 'important');
+              }
+            }
+          }
+        }
+      });
+
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+    })();
+  </script>
+
   <link rel="dns-prefetch" href="https://embed.tawk.to" />
   <link rel="preconnect" href="https://embed.tawk.to" crossorigin />
 
@@ -33,11 +68,14 @@
   <meta name="twitter:image" content="https://perp.mer.finance/merdex-social-card.png?v=20260908" />
 
   <style>
-    /* CSS 物理防闪烁：强行将 Tawk 原生小图标 iframe 移出屏幕可视区 */
-    iframe[src="about:blank"][referrerpolicy="no-referrer-when-downgrade"][style*="max-width:124px"],
-    iframe[src="about:blank"][referrerpolicy="no-referrer-when-downgrade"][style*="max-width: 124px"] {
-      transform: translateX(200vw) !important;
-      -webkit-transform: translateX(200vw) !important;
+    /* CSS 双重封锁：强行将 Tawk 原生小图标设置为不占用渲染帧的隐藏状态 */
+    iframe[src="about:blank"][referrerpolicy="no-referrer-when-downgrade"],
+    iframe[title*="chat widget"]:not([style*="max-height:100%"]):not([style*="height: 100%"]) {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: scale(0) !important;
     }
 
     /* 自定义客服悬浮球：默认隐藏，通过 JS 切换 .is-visible 显示 */
