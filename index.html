@@ -4,35 +4,31 @@
 <head>
   <meta charset="UTF-8" />
   
-  <!-- 【第一道防线：黑洞级隐形样式】 -->
+  <!-- 1. 精确级防闪烁样式：仅隐形未展开的气泡，绝不破坏聊天内容渲染 -->
   <style id="tawk-anti-flicker-style">
-    /* 强行封锁所有带有 tawk 标识的元素，除非显式标记为大窗口 (.is-chat-maximized) */
-    iframe[src*="tawk.to"]:not(.is-chat-maximized),
-    iframe[title*="chat widget"]:not(.is-chat-maximized),
-    iframe[title*="tawk"]:not(.is-chat-maximized),
-    div[id*="tawk"]:not(.is-chat-maximized) {
+    /* 强行封锁 Tawk 默认的原生小气泡/小图标 */
+    iframe[src*="tawk.to"][title*="chat widget"],
+    iframe[src*="tawk.to"][title*="tawk"],
+    div[id*="tawk-bubble-container"],
+    div[class*="tawk-min-container"] {
       display: none !important;
       opacity: 0 !important;
       visibility: hidden !important;
       pointer-events: none !important;
-      width: 0 !important;
-      height: 0 !important;
-      position: fixed !important;
-      top: -9999px !important;
-      left: -9999px !important;
     }
 
-    /* 仅允许展开的聊天框正常显示 */
-    iframe.is-chat-maximized {
+    /* 未展开状态下，隐藏聊天窗口容器防止闪现，但允许其在后台正常静默加载 */
+    body:not(.tawk-chat-open) iframe[src*="tawk.to"]:not([style*="height: 100%"]):not([style*="height:100%"]) {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* 展开状态下：完美解封，恢复所有消息交互功能 */
+    body.tawk-chat-open iframe[src*="tawk.to"] {
       display: block !important;
       opacity: 1 !important;
       visibility: visible !important;
       pointer-events: auto !important;
-    }
-
-    /* 隔离舱不占用布局 */
-    #tawk-shadow-sandbox {
-      display: none !important;
     }
   </style>
 
@@ -134,61 +130,13 @@
     }
   </style>
 
-  <!-- 2. 底层 DOM API 拦截劫持逻辑（Zero-Flicker 终极方案） -->
+  <!-- 2. 精准无侵入式 SDK 控制逻辑 -->
   <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     Tawk_API.lang = 'en';
 
     var mobileTawkPositionKey = 'merdex-mobile-tawk-position';
 
-    /* 构建闭合 Shadow DOM 隔离宿主 */
-    var sandboxHost = document.createElement('div');
-    sandboxHost.id = 'tawk-shadow-sandbox';
-    var shadowRoot = sandboxHost.attachShadow({ mode: 'closed' });
-    (document.head || document.documentElement).appendChild(sandboxHost);
-
-    /* 保存原生 DOM 操作 API */
-    var origAppendChild = Node.prototype.appendChild;
-    var origInsertBefore = Node.prototype.insertBefore;
-
-    function isTawkNode(node) {
-      if (!node || node.nodeType !== 1) return false;
-      var src = node.getAttribute('src') || '';
-      var title = node.getAttribute('title') || '';
-      var id = node.id || '';
-      return src.indexOf('tawk.to') !== -1 || title.indexOf('tawk') !== -1 || title.indexOf('chat widget') !== -1 || id.indexOf('tawk') !== -1;
-    }
-
-    /* 在节点挂载主文档的 0 毫秒拦截并分类重定向 */
-    function checkAndClassify(node) {
-      if (!isTawkNode(node)) return false;
-      var style = node.getAttribute('style') || '';
-      var isMaximized = style.indexOf('100%') !== -1 || style.indexOf('height: 5') !== -1 || style.indexOf('height: 6') !== -1;
-      
-      if (isMaximized) {
-        node.classList.add('is-chat-maximized');
-        return false; // 大窗状态允许正常渲染
-      } else {
-        node.classList.remove('is-chat-maximized');
-        return true; // 拦截并丢入影子节点隔离
-      }
-    }
-
-    Node.prototype.appendChild = function(child) {
-      if (checkAndClassify(child)) {
-        return origAppendChild.call(shadowRoot, child);
-      }
-      return origAppendChild.apply(this, arguments);
-    };
-
-    Node.prototype.insertBefore = function(newNode, referenceNode) {
-      if (checkAndClassify(newNode)) {
-        return origAppendChild.call(shadowRoot, newNode);
-      }
-      return origInsertBefore.apply(this, arguments);
-    };
-
-    /* 辅助功能及 UI 绑定 */
     function getMobileTawkWidget() {
       return document.getElementById('mobile-tawk-widget');
     }
@@ -233,17 +181,8 @@
       requestAnimationFrame(clampMobileTawkWidget);
     }
 
-    function syncMobileTawkWidget() {
-      var maximized = typeof Tawk_API.isChatMaximized === 'function' && Tawk_API.isChatMaximized();
-      if (maximized) {
-        showMobileTawkWidget(false);
-      } else {
-        showMobileTawkWidget(true);
-        restoreMobileTawkPosition();
-      }
-    }
-
     function openMobileTawkChat() {
+      document.body.classList.add('tawk-chat-open');
       showMobileTawkWidget(false);
       if (typeof Tawk_API.maximize === 'function') {
         Tawk_API.maximize();
@@ -253,27 +192,41 @@
       }
     }
 
-    /* Tawk 官方钩子管辖 */
+    /* Tawk 官方钩子状态联动 */
     Tawk_API.onBeforeLoad = forceHideNativeTawk;
+    
     Tawk_API.onLoad = function () {
       forceHideNativeTawk();
-      syncMobileTawkWidget();
+      if (typeof Tawk_API.isChatMaximized === 'function' && Tawk_API.isChatMaximized()) {
+        document.body.classList.add('tawk-chat-open');
+        showMobileTawkWidget(false);
+      } else {
+        document.body.classList.remove('tawk-chat-open');
+        showMobileTawkWidget(true);
+        restoreMobileTawkPosition();
+      }
     };
+
     Tawk_API.onChatMaximized = function () {
+      document.body.classList.add('tawk-chat-open');
       showMobileTawkWidget(false);
     };
+
     Tawk_API.onChatMinimized = function () {
-      forceHideNativeTawk();
-      showMobileTawkWidget(true);
-      restoreMobileTawkPosition();
-    };
-    Tawk_API.onChatHidden = function () {
+      document.body.classList.remove('tawk-chat-open');
       forceHideNativeTawk();
       showMobileTawkWidget(true);
       restoreMobileTawkPosition();
     };
 
-    window.addEventListener('resize', syncMobileTawkWidget);
+    Tawk_API.onChatHidden = function () {
+      document.body.classList.remove('tawk-chat-open');
+      forceHideNativeTawk();
+      showMobileTawkWidget(true);
+      restoreMobileTawkPosition();
+    };
+
+    window.addEventListener('resize', clampMobileTawkWidget);
 
     document.addEventListener('DOMContentLoaded', function () {
       var widget = getMobileTawkWidget();
@@ -281,7 +234,8 @@
 
       if (!widget) return;
 
-      syncMobileTawkWidget();
+      showMobileTawkWidget(true);
+      restoreMobileTawkPosition();
 
       widget.addEventListener('pointerdown', function (event) {
         var rect = widget.getBoundingClientRect();
