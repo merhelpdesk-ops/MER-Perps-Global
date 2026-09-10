@@ -4,9 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   
-  <!-- 1. 终极 CSS 防线：对 Tawk 生成的所有元素进行物理隔离（打入视口外 -9999px） -->
   <style id="tawk-anti-flicker-style">
-    /* 永久物理隔离原生小气泡/图标容器 */
     div[class*="tawk-min-container"],
     div[id*="tawk-bubble-container"],
     iframe[title*="chat widget"]:not([style*="height: 100%"]):not([style*="height:100%"]),
@@ -21,7 +19,6 @@
       top: -9999px !important;
     }
 
-    /* 未展开状态下：将所有带有 tawk 属性的容器踢出屏幕可见区域 */
     body:not(.tawk-chat-open) iframe[src*="tawk.to"],
     body:not(.tawk-chat-open) div[id*="tawk"],
     body:not(.tawk-chat-open) div[class*="tawk"] {
@@ -31,7 +28,6 @@
       transform: translate3d(-9999px, -9999px, 0) !important;
     }
 
-    /* 展开状态下：恢复主聊天窗口位置 */
     body.tawk-chat-open iframe[src*="tawk.to"],
     body.tawk-chat-open div[id*="tawk-body-container"],
     body.tawk-chat-open div[class*="tawk-card"] {
@@ -41,7 +37,6 @@
       transform: none !important;
     }
 
-    /* 移动端展开聊天框防遮挡与适配 */
     @media (max-width: 768px) {
       div[role="dialog"] {
         margin-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
@@ -69,7 +64,6 @@
       }
     }
 
-    /* 自定义客服悬浮球样式 */
     #mobile-tawk-widget {
       display: none;
     }
@@ -109,7 +103,6 @@
     }
   </style>
 
-  <!-- 2. 底层 DOM 插入拦截器：在 Tawk 元素插入页面的首帧直接打入透明标记 -->
   <script type="text/javascript">
     (function interceptTawkDomInsertion() {
       const origAppendChild = Element.prototype.appendChild;
@@ -158,7 +151,6 @@
   <meta name="twitter:description" content="MERDEX is a secure and high-speed aggregate platform." />
   <meta name="twitter:image" content="https://perp.mer.finance/merdex-social-card.png?v=20260908" />
 
-  <!-- 3. 精准无侵入式 SDK 控制逻辑 -->
   <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     Tawk_API.lang = 'en';
@@ -209,7 +201,6 @@
       requestAnimationFrame(clampMobileTawkWidget);
     }
 
-    /* 展开函数：先最大化，延迟一帧解封样式，避免尺寸计算过程闪烁 */
     function openMobileTawkChat() {
       showMobileTawkWidget(false);
       if (typeof Tawk_API.maximize === 'function') {
@@ -224,7 +215,6 @@
       });
     }
 
-    /* Tawk 官方钩子状态联动 */
     Tawk_API.onBeforeLoad = forceHideNativeTawk;
     
     Tawk_API.onLoad = function () {
@@ -323,7 +313,6 @@
         if (event.detail === 0) openMobileTawkChat();
       });
 
-      /* 异步挂载官方客服 SDK 脚本 */
       var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
       s1.async = true;
       s1.src = 'https://embed.tawk.to/6a98b268451e133447599dcc/1k1l6h0rv';
@@ -341,7 +330,6 @@
 <body>
   <div id="root"></div>
 
-  <!-- 自定义 Tawk 浮动图标按钮 -->
   <button id="mobile-tawk-widget" type="button" aria-label="Chat widget" title="Chat widget">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" height="32" width="32" role="img"
       aria-labelledby="tawk-open-icon-title tawk-open-icon-description">
