@@ -7,8 +7,8 @@
   <style id="tawk-anti-flicker-style">
     div[class*="tawk-min-container"],
     div[id*="tawk-bubble-container"],
-    iframe[title*="chat widget"]:not([style*="height: 100%"]):not([style*="height:100%"]),
-    iframe[title*="tawk"]:not([style*="height: 100%"]):not([style*="height:100%"]) {
+    iframe[src*="tawk.to"][title*="chat widget"]:not([style*="height: 100%"]):not([style*="height:100%"]),
+    iframe[src*="tawk.to"][title*="tawk"]:not([style*="height: 100%"]):not([style*="height:100%"]) {
       display: none !important;
       opacity: 0 !important;
       visibility: hidden !important;
@@ -20,8 +20,8 @@
     }
 
     body:not(.tawk-chat-open) iframe[src*="tawk.to"],
-    body:not(.tawk-chat-open) div[id*="tawk"],
-    body:not(.tawk-chat-open) div[class*="tawk"] {
+    body:not(.tawk-chat-open) div[id^="tawk-widget-"],
+    body:not(.tawk-chat-open) div[class^="tawk-"] {
       opacity: 0 !important;
       visibility: hidden !important;
       pointer-events: none !important;
@@ -109,7 +109,7 @@
       Element.prototype.appendChild = function (child) {
         if (child && child.tagName) {
           const isTawkIframe = child.tagName === 'IFRAME' && child.src && child.src.indexOf('tawk.to') !== -1;
-          const isTawkDiv = child.id && child.id.indexOf('tawk') !== -1 || (child.className && typeof child.className === 'string' && child.className.indexOf('tawk') !== -1);
+          const isTawkDiv = (child.id && child.id.indexOf('tawk-') === 0) || (child.className && typeof child.className === 'string' && child.className.indexOf('tawk-') === 0);
           
           if ((isTawkIframe || isTawkDiv) && !document.body.classList.contains('tawk-chat-open')) {
             child.style.setProperty('opacity', '0', 'important');
