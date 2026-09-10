@@ -19,7 +19,10 @@
       top: -9999px !important;
     }
 
-    body:not(.tawk-chat-open) iframe[src*="tawk.to"] {
+    body:not(.tawk-chat-open) iframe[src*="tawk.to"],
+    body:not(.tawk-chat-open) div[id^="tawk-widget-"],
+    body:not(.tawk-chat-open) div[class^="tawk-"] {
+      display: none !important;
       opacity: 0 !important;
       visibility: hidden !important;
       pointer-events: none !important;
@@ -29,6 +32,7 @@
     body.tawk-chat-open iframe[src*="tawk.to"],
     body.tawk-chat-open div[id*="tawk-body-container"],
     body.tawk-chat-open div[class*="tawk-card"] {
+      display: block !important;
       opacity: 1 !important;
       visibility: visible !important;
       pointer-events: auto !important;
@@ -111,6 +115,7 @@
           const isTawkDiv = (child.id && child.id.indexOf('tawk-') === 0) || (child.className && typeof child.className === 'string' && child.className.indexOf('tawk-') === 0);
           
           if ((isTawkIframe || isTawkDiv) && !document.body.classList.contains('tawk-chat-open')) {
+            child.style.setProperty('display', 'none', 'important');
             child.style.setProperty('opacity', '0', 'important');
             child.style.setProperty('visibility', 'hidden', 'important');
             child.style.setProperty('transform', 'translate3d(-9999px, -9999px, 0)', 'important');
@@ -270,7 +275,6 @@
         };
         widget.setPointerCapture(event.pointerId);
         widget.classList.add('is-dragging');
-        event.preventDefault();
       });
 
       widget.addEventListener('pointermove', function (event) {
@@ -309,7 +313,7 @@
       });
 
       widget.addEventListener('click', function (event) {
-        if (event.detail === 0) openMobileTawkChat();
+        openMobileTawkChat();
       });
 
       var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
