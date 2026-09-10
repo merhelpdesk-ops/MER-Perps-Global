@@ -6,8 +6,27 @@
   <link rel="icon" type="image/webp" sizes="96x96" href="/favicon.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- 【沙盒容器防线】：主文档中永远给它零空间 -->
+  <!-- 【沙盒容器与防闪烁防御防线】 -->
   <style id="tawk-sandbox-host-style">
+    /* 1. 全局 CSS 优先拦截：默认隐藏所有原生 Tawk iframe，防止初次加载时闪烁 */
+    body > iframe[src*="tawk.to"],
+    body > iframe[title*="chat widget"],
+    body > iframe[title*="tawk"] {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
+    /* 2. 当用户主动展开聊天大窗口时，恢复主文档中展开框架的显示 */
+    body > iframe[src*="tawk.to"].tawk-maximized,
+    body > iframe[style*="height: 100%"].tawk-maximized,
+    body > iframe[style*="height:100%"].tawk-maximized {
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    /* 3. Shadow DOM 宿主定义为完全无空间占用 */
     #tawk-shadow-sandbox {
       display: block !important;
       position: absolute !important;
@@ -143,7 +162,7 @@
       } catch (e) {}
     }
 
-    /* 核心解法：将主文档中误插的 Tawk iframe 搬迁到 Shadow DOM 沙盒 */
+    /* 核心解法：无缝接管与 Shadow DOM 迁移 */
     function quarantineTawkNodes() {
       var host = document.getElementById('tawk-shadow-sandbox');
       if (!host || !host.shadowRoot) return;
@@ -153,14 +172,17 @@
 
       iframes.forEach(function (iframe) {
         var style = iframe.getAttribute('style') || '';
+        // 判定是否是展开后的聊天大窗
         var isMaximized = style.indexOf('100%') !== -1 || style.indexOf('height: 5') !== -1 || style.indexOf('height: 6') !== -1;
 
         if (!isMaximized) {
+          iframe.classList.remove('tawk-maximized');
           // 如果是非最大化气泡，收入 Shadow Root 沙盒隔离
           if (iframe.parentNode !== shadow) {
             shadow.appendChild(iframe);
           }
         } else {
+          iframe.classList.add('tawk-maximized');
           // 如果是展开大窗口，释放回主文档渲染
           if (iframe.parentNode !== document.body) {
             document.body.appendChild(iframe);
