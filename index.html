@@ -9,24 +9,6 @@
   <link rel="dns-prefetch" href="https://embed.tawk.to" />
   <link rel="preconnect" href="https://embed.tawk.to" crossorigin />
 
-  <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    Tawk_API.lang = 'en';
-
-    (function () {
-      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/6a98b268451e133447599dcc/1k1l6h0rv';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      if (s0 && s0.parentNode) {
-        s0.parentNode.insertBefore(s1, s0);
-      } else {
-        document.head.appendChild(s1);
-      }
-    })();
-  </script>
-
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#000000" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -51,7 +33,19 @@
   <meta name="twitter:image" content="https://perp.mer.finance/merdex-social-card.png?v=20260908" />
 
   <style>
+    /* CSS 物理防闪烁：强行将 Tawk 原生小图标 iframe 移出屏幕可视区 */
+    iframe[src="about:blank"][referrerpolicy="no-referrer-when-downgrade"][style*="max-width:124px"],
+    iframe[src="about:blank"][referrerpolicy="no-referrer-when-downgrade"][style*="max-width: 124px"] {
+      transform: translateX(200vw) !important;
+      -webkit-transform: translateX(200vw) !important;
+    }
+
+    /* 自定义客服悬浮球：默认隐藏，通过 JS 切换 .is-visible 显示 */
     #mobile-tawk-widget {
+      display: none;
+    }
+
+    #mobile-tawk-widget.is-visible {
       align-items: center;
       background: #1595ad;
       border: 0;
@@ -78,12 +72,8 @@
       transform: scale(0.96);
     }
 
-    #mobile-tawk-widget.is-hidden {
-      display: none !important;
-    }
-
     @media (min-width: 1001px) {
-      #mobile-tawk-widget {
+      #mobile-tawk-widget.is-visible {
         bottom: 30px;
         right: 20px;
       }
@@ -91,10 +81,35 @@
   </style>
 
   <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    Tawk_API.lang = 'en';
     var mobileTawkPositionKey = 'merdex-mobile-tawk-position';
 
     function getMobileTawkWidget() {
       return document.getElementById('mobile-tawk-widget');
+    }
+
+    function showMobileTawkWidget(visible) {
+      var widget = getMobileTawkWidget();
+      if (widget) widget.classList.toggle('is-visible', visible);
+    }
+
+    function hideNativeTawkWidget() {
+      if (typeof Tawk_API.hideWidget === 'function') {
+        Tawk_API.hideWidget();
+      }
+    }
+
+    function clampMobileTawkWidget() {
+      var widget = getMobileTawkWidget();
+      if (!widget || !widget.classList.contains('is-visible')) return;
+      var rect = widget.getBoundingClientRect();
+      var left = Math.max(0, Math.min(rect.left, window.innerWidth - rect.width));
+      var top = Math.max(0, Math.min(rect.top, window.innerHeight - rect.height));
+      widget.style.left = left + 'px';
+      widget.style.top = top + 'px';
+      widget.style.right = 'auto';
+      widget.style.bottom = 'auto';
     }
 
     function restoreMobileTawkPosition() {
@@ -109,9 +124,21 @@
           widget.style.bottom = 'auto';
         }
       } catch (error) { }
+      requestAnimationFrame(clampMobileTawkWidget);
+    }
+
+    function syncMobileTawkWidget() {
+      var maximized = typeof Tawk_API.isChatMaximized === 'function' && Tawk_API.isChatMaximized();
+      if (maximized) {
+        showMobileTawkWidget(false);
+      } else {
+        showMobileTawkWidget(true);
+        restoreMobileTawkPosition();
+      }
     }
 
     function openMobileTawkChat() {
+      showMobileTawkWidget(false);
       if (typeof Tawk_API.maximize === 'function') {
         Tawk_API.maximize();
       } else if (typeof Tawk_API.start === 'function') {
@@ -119,40 +146,40 @@
       }
     }
 
-    Tawk_API.onLoad = function() {
-      if (typeof Tawk_API.hideWidget === 'function') {
-        Tawk_API.hideWidget();
-      }
+    /* 阶段 1：在 Tawk 开始加载前即绑定隐藏逻辑，彻底干掉初始化闪烁 */
+    Tawk_API.onBeforeLoad = hideNativeTawkWidget;
+
+    /* 阶段 2：生命周期同步 */
+    Tawk_API.onLoad = function () {
+      hideNativeTawkWidget();
+      syncMobileTawkWidget();
     };
 
     Tawk_API.onChatMaximized = function () {
-      var widget = getMobileTawkWidget();
-      if (widget) widget.classList.add('is-hidden');
+      showMobileTawkWidget(false);
     };
 
     Tawk_API.onChatMinimized = function () {
-      if (typeof Tawk_API.hideWidget === 'function') {
-        Tawk_API.hideWidget();
-      }
-      var widget = getMobileTawkWidget();
-      if (widget) widget.classList.remove('is-hidden');
+      hideNativeTawkWidget();
+      showMobileTawkWidget(true);
+      restoreMobileTawkPosition();
     };
 
     Tawk_API.onChatHidden = function () {
-      if (typeof Tawk_API.hideWidget === 'function') {
-        Tawk_API.hideWidget();
-      }
-      var widget = getMobileTawkWidget();
-      if (widget) widget.classList.remove('is-hidden');
+      hideNativeTawkWidget();
+      showMobileTawkWidget(true);
+      restoreMobileTawkPosition();
     };
 
-    document.addEventListener('DOMContentLoaded', function () {
-      restoreMobileTawkPosition();
+    window.addEventListener('resize', syncMobileTawkWidget);
 
+    document.addEventListener('DOMContentLoaded', function () {
       var widget = getMobileTawkWidget();
       var drag = null;
 
       if (!widget) return;
+
+      syncMobileTawkWidget();
 
       widget.addEventListener('pointerdown', function (event) {
         var rect = widget.getBoundingClientRect();
@@ -208,11 +235,26 @@
         if (event.detail === 0) openMobileTawkChat();
       });
     });
+
+    /* 异步加载 Tawk 脚本 */
+    (function () {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/6a98b268451e133447599dcc/1k1l6h0rv';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      if (s0 && s0.parentNode) {
+        s0.parentNode.insertBefore(s1, s0);
+      } else {
+        document.head.appendChild(s1);
+      }
+    })();
   </script>
 </head>
 
 <body>
   <div id="root"></div>
+
   <button id="mobile-tawk-widget" type="button" aria-label="Chat widget" title="Chat widget"
     class="tawk-custom-color tawk-custom-border-color tawk-outline tawk-button tawk-button-circle tawk-button-large">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" height="32" width="32" role="img"
@@ -223,6 +265,7 @@
         d="M400 26.2c-193.3 0-350 156.7-350 350 0 136.2 77.9 254.3 191.5 312.1 15.4 8.1 31.4 15.1 48.1 20.8l-16.5 63.5c-2 7.8 5.4 14.7 13 12.1l229.8-77.6c14.6-5.3 28.8-11.6 42.4-18.7C672 630.6 750 512.5 750 376.2c0-193.3-156.7-350-350-350zm211.1 510.7c-10.8 26.5-41.9 77.2-121.5 77.2-79.9 0-110.9-51-121.6-77.4-2.8-6.8 5-13.4 13.8-11.8 76.2 13.7 147.7 13 215.3.3 8.9-1.8 16.8 4.8 14 11.7z" />
     </svg>
   </button>
+
   <script type="module" src="/app/main.tsx"></script>
 </body>
 
