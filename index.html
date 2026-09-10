@@ -79,25 +79,6 @@
     }
   </style>
 
-  <script type="text/javascript">
-    (function interceptTawkDomInsertion() {
-      const origAppendChild = Element.prototype.appendChild;
-      Element.prototype.appendChild = function (child) {
-        if (child && child.tagName) {
-          const isTawkIframe = child.tagName === 'IFRAME' && child.src && child.src.indexOf('tawk.to') !== -1;
-          const isTawkDiv = (child.id && child.id.indexOf('tawk-') === 0) || (child.className && typeof child.className === 'string' && child.className.indexOf('tawk-') === 0);
-          
-          if ((isTawkIframe || isTawkDiv) && !document.body.classList.contains('tawk-chat-open')) {
-            child.style.setProperty('display', 'none', 'important');
-            child.style.setProperty('opacity', '0', 'important');
-            child.style.setProperty('visibility', 'hidden', 'important');
-            child.style.setProperty('transform', 'translate3d(-9999px, -9999px, 0)', 'important');
-          }
-        }
-        return origAppendChild.apply(this, arguments);
-      };
-    })();
-  </script>
 
   <link rel="icon" type="image/webp" sizes="96x96" href="/favicon.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -133,6 +114,7 @@
     Tawk_API.lang = 'en';
 
     var mobileTawkPositionKey = 'merdex-mobile-tawk-position';
+    var tawkReady = false;
 
     function getMobileTawkWidget() {
       return document.getElementById('mobile-tawk-widget');
@@ -141,14 +123,6 @@
     function showMobileTawkWidget(visible) {
       var widget = getMobileTawkWidget();
       if (widget) widget.classList.toggle('is-visible', visible);
-    }
-
-    function forceHideNativeTawk() {
-      try {
-        if (typeof Tawk_API !== 'undefined' && typeof Tawk_API.hideWidget === 'function') {
-          Tawk_API.hideWidget();
-        }
-      } catch (e) {}
     }
 
     function clampMobileTawkWidget() {
@@ -178,31 +152,56 @@
       requestAnimationFrame(clampMobileTawkWidget);
     }
 
-    function openMobileTawkChat() {
-      showMobileTawkWidget(false);
-      if (typeof Tawk_API.maximize === 'function') {
-        Tawk_API.maximize();
-      } else if (typeof Tawk_API.start === 'function') {
-        Tawk_API.start();
-        if (typeof Tawk_API.maximize === 'function') Tawk_API.maximize();
-      }
-      
-      requestAnimationFrame(function() {
-        document.body.classList.add('tawk-chat-open');
-      });
+    function backToCustomBubble() {
+      // 只靠 CSS class 隐藏原生 widget，绝不调用 hideWidget()，
+      // 保持 Tawk 内部处于 minimized 状态，确保 maximize() 永远可用
+      document.body.classList.remove('tawk-chat-open');
+      showMobileTawkWidget(true);
+      restoreMobileTawkPosition();
     }
 
-    Tawk_API.onBeforeLoad = forceHideNativeTawk;
-    
+    function openMobileTawkChat() {
+      // 脚本未加载完成，稍后重试
+      if (!tawkReady) {
+        setTimeout(function () {
+          if (tawkReady) openMobileTawkChat();
+        }, 300);
+        return;
+      }
+
+      // 先加 class：样式表 body.tawk-chat-open 规则立即生效，iframe 可见。
+      // 不写任何内联 important 样式，避免内联 important 永久压过样式表
+      // 导致窗口被焊死在隐藏状态。
+      document.body.classList.add('tawk-chat-open');
+      showMobileTawkWidget(false);
+
+      try {
+        if (typeof Tawk_API.start === 'function') Tawk_API.start();
+        if (typeof Tawk_API.maximize === 'function') Tawk_API.maximize();
+        else if (typeof Tawk_API.toggle === 'function') Tawk_API.toggle();
+      } catch (e) {}
+
+      // 兜底：400ms 后仍未最大化，再试一次 toggle
+      setTimeout(function () {
+        try {
+          if (typeof Tawk_API.isChatMaximized === 'function'
+              && !Tawk_API.isChatMaximized()
+              && typeof Tawk_API.toggle === 'function') {
+            Tawk_API.toggle();
+          }
+        } catch (e) {}
+      }, 400);
+    }
+
     Tawk_API.onLoad = function () {
-      forceHideNativeTawk();
+      tawkReady = true;
+      // 注意：这里刻意不调用 hideWidget()。
+      // 原生气泡由 CSS（body:not(.tawk-chat-open)）隐藏，widget 保持正常状态。
       if (typeof Tawk_API.isChatMaximized === 'function' && Tawk_API.isChatMaximized()) {
         document.body.classList.add('tawk-chat-open');
         showMobileTawkWidget(false);
       } else {
-        document.body.classList.remove('tawk-chat-open');
-        showMobileTawkWidget(true);
-        restoreMobileTawkPosition();
+        backToCustomBubble();
       }
     };
 
@@ -211,23 +210,23 @@
       showMobileTawkWidget(false);
     };
 
-    Tawk_API.onChatMinimized = function () {
-      document.body.classList.remove('tawk-chat-open');
-      forceHideNativeTawk();
-      showMobileTawkWidget(true);
-      restoreMobileTawkPosition();
-    };
-
-    Tawk_API.onChatHidden = function () {
-      document.body.classList.remove('tawk-chat-open');
-      forceHideNativeTawk();
-      showMobileTawkWidget(true);
-      restoreMobileTawkPosition();
-    };
+    Tawk_API.onChatMinimized = backToCustomBubble;
+    Tawk_API.onChatHidden = backToCustomBubble;
 
     window.addEventListener('resize', clampMobileTawkWidget);
 
     document.addEventListener('DOMContentLoaded', function () {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/6a98b268451e133447599dcc/1k1l6h0rv';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      if (s0 && s0.parentNode) {
+        s0.parentNode.insertBefore(s1, s0);
+      } else {
+        document.head.appendChild(s1);
+      }
+
       var widget = getMobileTawkWidget();
       var drag = null;
 
@@ -284,21 +283,6 @@
         widget.classList.remove('is-dragging');
         drag = null;
       });
-
-      widget.addEventListener('click', function (event) {
-        openMobileTawkChat();
-      });
-
-      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/6a98b268451e133447599dcc/1k1l6h0rv';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      if (s0 && s0.parentNode) {
-        s0.parentNode.insertBefore(s1, s0);
-      } else {
-        document.head.appendChild(s1);
-      }
     });
   </script>
 </head>
