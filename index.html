@@ -4,66 +4,43 @@
 <head>
   <meta charset="UTF-8" />
   
-  <!-- 1. 强效防闪烁样式：非展开状态下无条件锁定所有 Tawk 渲染框 -->
+  <!-- 1. 终极 CSS 防线：对 Tawk 生成的所有元素进行物理隔离（打入视口外 -9999px） -->
   <style id="tawk-anti-flicker-style">
-    /* 强行封锁 Tawk 默认的原生小气泡/小图标 */
-    iframe[src*="tawk.to"][title*="chat widget"],
-    iframe[src*="tawk.to"][title*="tawk"],
+    /* 永久物理隔离原生小气泡/图标容器 */
+    div[class*="tawk-min-container"],
     div[id*="tawk-bubble-container"],
-    div[class*="tawk-min-container"] {
+    iframe[title*="chat widget"]:not([style*="height: 100%"]):not([style*="height:100%"]),
+    iframe[title*="tawk"]:not([style*="height: 100%"]):not([style*="height:100%"]) {
       display: none !important;
       opacity: 0 !important;
       visibility: hidden !important;
       pointer-events: none !important;
+      transform: translate3d(-9999px, -9999px, 0) !important;
+      position: absolute !important;
+      left: -9999px !important;
+      top: -9999px !important;
     }
 
-    /* 未展开状态下：全封闭隐藏，不匹配任何 height 属性，杜绝瞬间闪烁 */
+    /* 未展开状态下：将所有带有 tawk 属性的容器踢出屏幕可见区域 */
     body:not(.tawk-chat-open) iframe[src*="tawk.to"],
-    body:not(.tawk-chat-open) div[id*="tawk"] {
+    body:not(.tawk-chat-open) div[id*="tawk"],
+    body:not(.tawk-chat-open) div[class*="tawk"] {
       opacity: 0 !important;
       visibility: hidden !important;
       pointer-events: none !important;
+      transform: translate3d(-9999px, -9999px, 0) !important;
     }
 
-    /* 展开状态下：精准解封，恢复所有消息交互功能 */
-    body.tawk-chat-open iframe[src*="tawk.to"] {
-      display: block !important;
+    /* 展开状态下：恢复主聊天窗口位置 */
+    body.tawk-chat-open iframe[src*="tawk.to"],
+    body.tawk-chat-open div[id*="tawk-body-container"],
+    body.tawk-chat-open div[class*="tawk-card"] {
       opacity: 1 !important;
       visibility: visible !important;
       pointer-events: auto !important;
+      transform: none !important;
     }
-  </style>
 
-  <link rel="icon" type="image/webp" sizes="96x96" href="/favicon.webp" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="dns-prefetch" href="https://embed.tawk.to" />
-  <link rel="preconnect" href="https://embed.tawk.to" crossorigin />
-
-  <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="apple-touch-icon" href="/favicon.webp" />
-
-  <title>MERDEX</title>
-  <meta name="description" content="MERDEX is a secure and high-speed aggregate platform." />
-  <link rel="canonical" href="https://perp.mer.finance/" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="MERDEX" />
-  <meta property="og:title" content="MERDEX" />
-  <meta property="og:description" content="MERDEX is a secure and high-speed aggregate platform." />
-  <meta property="og:url" content="https://perp.mer.finance/" />
-  <meta property="og:image" content="https://perp.mer.finance/merdex-social-card.png?v=20260908" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MERDEX" />
-  <meta name="twitter:description" content="MERDEX is a secure and high-speed aggregate platform." />
-  <meta name="twitter:image" content="https://perp.mer.finance/merdex-social-card.png?v=20260908" />
-
-  <style>
     /* 移动端展开聊天框防遮挡与适配 */
     @media (max-width: 768px) {
       div[role="dialog"] {
@@ -92,7 +69,7 @@
       }
     }
 
-    /* 自定义客服悬浮球：默认隐藏，通过 JS 切换 .is-visible 显示 */
+    /* 自定义客服悬浮球样式 */
     #mobile-tawk-widget {
       display: none;
     }
@@ -132,7 +109,56 @@
     }
   </style>
 
-  <!-- 2. 精准无侵入式 SDK 控制逻辑 -->
+  <!-- 2. 底层 DOM 插入拦截器：在 Tawk 元素插入页面的首帧直接打入透明标记 -->
+  <script type="text/javascript">
+    (function interceptTawkDomInsertion() {
+      const origAppendChild = Element.prototype.appendChild;
+      Element.prototype.appendChild = function (child) {
+        if (child && child.tagName) {
+          const isTawkIframe = child.tagName === 'IFRAME' && child.src && child.src.indexOf('tawk.to') !== -1;
+          const isTawkDiv = child.id && child.id.indexOf('tawk') !== -1 || (child.className && typeof child.className === 'string' && child.className.indexOf('tawk') !== -1);
+          
+          if ((isTawkIframe || isTawkDiv) && !document.body.classList.contains('tawk-chat-open')) {
+            child.style.setProperty('opacity', '0', 'important');
+            child.style.setProperty('visibility', 'hidden', 'important');
+            child.style.setProperty('transform', 'translate3d(-9999px, -9999px, 0)', 'important');
+          }
+        }
+        return origAppendChild.apply(this, arguments);
+      };
+    })();
+  </script>
+
+  <link rel="icon" type="image/webp" sizes="96x96" href="/favicon.webp" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="dns-prefetch" href="https://embed.tawk.to" />
+  <link rel="preconnect" href="https://embed.tawk.to" crossorigin />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="/favicon.webp" />
+
+  <title>MERDEX</title>
+  <meta name="description" content="MERDEX is a secure and high-speed aggregate platform." />
+  <link rel="canonical" href="https://perp.mer.finance/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="MERDEX" />
+  <meta property="og:title" content="MERDEX" />
+  <meta property="og:description" content="MERDEX is a secure and high-speed aggregate platform." />
+  <meta property="og:url" content="https://perp.mer.finance/" />
+  <meta property="og:image" content="https://perp.mer.finance/merdex-social-card.png?v=20260908" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MERDEX" />
+  <meta name="twitter:description" content="MERDEX is a secure and high-speed aggregate platform." />
+  <meta name="twitter:image" content="https://perp.mer.finance/merdex-social-card.png?v=20260908" />
+
+  <!-- 3. 精准无侵入式 SDK 控制逻辑 -->
   <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     Tawk_API.lang = 'en';
@@ -183,8 +209,8 @@
       requestAnimationFrame(clampMobileTawkWidget);
     }
 
+    /* 展开函数：先最大化，延迟一帧解封样式，避免尺寸计算过程闪烁 */
     function openMobileTawkChat() {
-      document.body.classList.add('tawk-chat-open');
       showMobileTawkWidget(false);
       if (typeof Tawk_API.maximize === 'function') {
         Tawk_API.maximize();
@@ -192,6 +218,10 @@
         Tawk_API.start();
         if (typeof Tawk_API.maximize === 'function') Tawk_API.maximize();
       }
+      
+      requestAnimationFrame(function() {
+        document.body.classList.add('tawk-chat-open');
+      });
     }
 
     /* Tawk 官方钩子状态联动 */
