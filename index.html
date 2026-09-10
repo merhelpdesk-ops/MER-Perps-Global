@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   
-  <!-- 1. 精确级防闪烁样式：仅隐形未展开的气泡，绝不破坏聊天内容渲染 -->
+  <!-- 1. 强效防闪烁样式：非展开状态下无条件锁定所有 Tawk 渲染框 -->
   <style id="tawk-anti-flicker-style">
     /* 强行封锁 Tawk 默认的原生小气泡/小图标 */
     iframe[src*="tawk.to"][title*="chat widget"],
@@ -17,13 +17,15 @@
       pointer-events: none !important;
     }
 
-    /* 未展开状态下，隐藏聊天窗口容器防止闪现，但允许其在后台正常静默加载 */
-    body:not(.tawk-chat-open) iframe[src*="tawk.to"]:not([style*="height: 100%"]):not([style*="height:100%"]) {
+    /* 未展开状态下：全封闭隐藏，不匹配任何 height 属性，杜绝瞬间闪烁 */
+    body:not(.tawk-chat-open) iframe[src*="tawk.to"],
+    body:not(.tawk-chat-open) div[id*="tawk"] {
       opacity: 0 !important;
+      visibility: hidden !important;
       pointer-events: none !important;
     }
 
-    /* 展开状态下：完美解封，恢复所有消息交互功能 */
+    /* 展开状态下：精准解封，恢复所有消息交互功能 */
     body.tawk-chat-open iframe[src*="tawk.to"] {
       display: block !important;
       opacity: 1 !important;
