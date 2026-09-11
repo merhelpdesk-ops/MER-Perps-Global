@@ -5,23 +5,10 @@
   <meta charset="UTF-8" />
   
   <style id="tawk-anti-flicker-style">
-    div[class*="tawk-min-container"],
-    div[id*="tawk-bubble-container"],
-    iframe[src*="tawk.to"][title*="chat widget"]:not([style*="height: 100%"]):not([style*="height:100%"]),
-    iframe[src*="tawk.to"][title*="tawk"]:not([style*="height: 100%"]):not([style*="height:100%"]) {
-      display: none !important;
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-      transform: translate3d(-9999px, -9999px, 0) !important;
-      position: absolute !important;
-      left: -9999px !important;
-      top: -9999px !important;
-    }
-
     body:not(.tawk-chat-open) iframe[src*="tawk.to"],
-    body:not(.tawk-chat-open) div[id^="tawk-widget-"],
-    body:not(.tawk-chat-open) div[class^="tawk-"] {
+    body:not(.tawk-chat-open) iframe[title*="chat"],
+    body:not(.tawk-chat-open) div[id^="tawk"],
+    body:not(.tawk-chat-open) div[class*="tawk"] {
       display: none !important;
       opacity: 0 !important;
       visibility: hidden !important;
@@ -30,8 +17,7 @@
     }
 
     body.tawk-chat-open iframe[src*="tawk.to"],
-    body.tawk-chat-open div[id*="tawk-body-container"],
-    body.tawk-chat-open div[class*="tawk-card"] {
+    body.tawk-chat-open iframe[title*="chat"] {
       display: block !important;
       opacity: 1 !important;
       visibility: visible !important;
@@ -78,7 +64,6 @@
       }
     }
   </style>
-
 
   <link rel="icon" type="image/webp" sizes="96x96" href="/favicon.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -153,15 +138,18 @@
     }
 
     function backToCustomBubble() {
-      // 只靠 CSS class 隐藏原生 widget，绝不调用 hideWidget()，
-      // 保持 Tawk 内部处于 minimized 状态，确保 maximize() 永远可用
       document.body.classList.remove('tawk-chat-open');
       showMobileTawkWidget(true);
       restoreMobileTawkPosition();
+
+      try {
+        if (typeof Tawk_API.hideWidget === 'function') {
+          Tawk_API.hideWidget();
+        }
+      } catch (e) {}
     }
 
     function openMobileTawkChat() {
-      // 脚本未加载完成，稍后重试
       if (!tawkReady) {
         setTimeout(function () {
           if (tawkReady) openMobileTawkChat();
@@ -169,19 +157,16 @@
         return;
       }
 
-      // 先加 class：样式表 body.tawk-chat-open 规则立即生效，iframe 可见。
-      // 不写任何内联 important 样式，避免内联 important 永久压过样式表
-      // 导致窗口被焊死在隐藏状态。
       document.body.classList.add('tawk-chat-open');
       showMobileTawkWidget(false);
 
       try {
+        if (typeof Tawk_API.showWidget === 'function') Tawk_API.showWidget();
         if (typeof Tawk_API.start === 'function') Tawk_API.start();
         if (typeof Tawk_API.maximize === 'function') Tawk_API.maximize();
         else if (typeof Tawk_API.toggle === 'function') Tawk_API.toggle();
       } catch (e) {}
 
-      // 兜底：400ms 后仍未最大化，再试一次 toggle
       setTimeout(function () {
         try {
           if (typeof Tawk_API.isChatMaximized === 'function'
@@ -195,11 +180,10 @@
 
     Tawk_API.onLoad = function () {
       tawkReady = true;
-      // 注意：这里刻意不调用 hideWidget()。
-      // 原生气泡由 CSS（body:not(.tawk-chat-open)）隐藏，widget 保持正常状态。
       if (typeof Tawk_API.isChatMaximized === 'function' && Tawk_API.isChatMaximized()) {
         document.body.classList.add('tawk-chat-open');
         showMobileTawkWidget(false);
+        if (typeof Tawk_API.showWidget === 'function') Tawk_API.showWidget();
       } else {
         backToCustomBubble();
       }
