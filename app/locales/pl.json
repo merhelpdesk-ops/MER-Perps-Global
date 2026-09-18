@@ -1,0 +1,13 @@
+{
+  "extend.tradingRewards.description": "Trade with MERDEX to earn ORDER",
+  "extend.affiliate.tag": "40% Rebate",
+  "extend.affiliate.description": "Zarabiaj więcej jako partner MERDEX",
+  "extend.staking": "Staking",
+  "extend.staking.description": "Stake ORDER/esORDER to acquire VALOR",
+  "extend.swap": "Wymiana",
+  "extend.tradingPoints.points": "Punkty",
+  "extend.tradingLeaderboard.leaderboard": "Tabela wyników",
+  "extend.tradingLeaderboard.campaigns": "Kampanie",
+  "extend.service": "Obsługa klienta",
+  "transfer.deposit.estGasFee.tooltip": "Szacowana opłata za gaz obejmuje: koszt wykonania transakcji w tym łańcuchu oraz opłatę operacyjną łańcucha docelowego za depozyt MERDEX. Przygotuj dodatkową kwotę, aby zapewnić wystarczające pokrycie."
+}
