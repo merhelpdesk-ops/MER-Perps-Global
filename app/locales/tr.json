@@ -1,0 +1,13 @@
+{
+  "extend.tradingRewards.description": "ORDER kazanmak için MERDEX ile ticaret yapın",
+  "extend.affiliate.tag": "40% Rebate",
+  "extend.affiliate.description": "Bir MERDEX satış ortağı olarak daha fazla kazanın",
+  "extend.staking": "Staking",
+  "extend.staking.description": "VALOR kazanmak için ORDER/esORDER yatırın",
+  "extend.swap": "Takas",
+  "extend.tradingPoints.points": "Puan",
+  "extend.tradingLeaderboard.leaderboard": "Sıralama",
+  "extend.tradingLeaderboard.campaigns": "Kampanyalar",
+  "extend.service": "Müşteri hizmetleri",
+  "transfer.deposit.estGasFee.tooltip": "Tahmini gas ücreti şunları içerir: bu zincirdeki işlem yürütme maliyeti ve MERDEX yatırımı için hedef zincir işletim ücreti. Yeterli kapsama sağlamak için lütfen ekstra hazırlayın."
+}
