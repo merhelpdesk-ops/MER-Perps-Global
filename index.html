@@ -5,6 +5,30 @@
   <meta charset="UTF-8" />
   
   <style id="tawk-anti-flicker-style">
+    .merdex-logo-container {
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .merdex-logo-img {
+      height: 42px;
+      max-width: 180px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    @media (max-width: 768px) {
+      .merdex-logo-container {
+        height: 34px;
+      }
+
+      .merdex-logo-img {
+        height: 34px;
+        max-width: 140px;
+      }
+    }
+
     body:not(.tawk-chat-open) iframe[src*="tawk.to"],
     body:not(.tawk-chat-open) iframe[title*="chat"],
     body:not(.tawk-chat-open) div[id^="tawk"],
