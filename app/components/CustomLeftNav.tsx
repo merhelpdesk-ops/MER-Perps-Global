@@ -67,7 +67,7 @@ const LeftNavSheet = modal.create<LeftNavUIProps>((props) => {
               <img
                 src={withBasePath("/logo.webp")}
                 alt="logo"
-                className="oui-h-[22px]"
+                className="oui-h-[34px] oui-max-w-[140px] oui-w-auto oui-object-contain oui-shrink-0"
               />
             ) : (
               <h1 className="oui-text-base-contrast-80 oui-font-bold">
