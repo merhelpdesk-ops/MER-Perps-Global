@@ -37,8 +37,9 @@ a[href^="https://orderly.network/"] {
 }
 
 @media (max-width: 768px) {
-  header img[src*="logo"],
-  [class*="oui-"] img[src*="logo"] {
+  header img[src*="logo.webp"],
+  nav img[src*="logo.webp"],
+  .oui-sheet img[src*="logo.webp"] {
     height: 34px !important;
     max-width: 140px !important;
     width: auto !important;
@@ -48,8 +49,9 @@ a[href^="https://orderly.network/"] {
 }
 
 @media (min-width: 769px) {
-  header img[src*="logo"],
-  [class*="oui-"] img[src*="logo"] {
+  header img[src*="logo.webp"],
+  nav img[src*="logo.webp"],
+  .oui-sheet img[src*="logo.webp"] {
     height: 42px !important;
     max-width: 180px !important;
     width: auto !important;
